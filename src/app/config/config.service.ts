@@ -5,6 +5,11 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class ConfigService {
+  configUrl = 'assets/config.json'
 
-  constructor(http: HttpClient) { }
+  constructor(private http: HttpClient) { }
+
+  getConfig() {
+    return this.http.get(this.configUrl);
+  }
 }
