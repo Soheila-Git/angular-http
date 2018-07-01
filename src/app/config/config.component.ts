@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ConfigService } from './config.service';
+import { Config, ConfigService } from './config.service';
 
 @Component({
   selector: 'app-config',
@@ -7,10 +7,17 @@ import { ConfigService } from './config.service';
   styleUrls: ['./config.component.css']
 })
 export class ConfigComponent implements OnInit {
+  config: Config;
 
   constructor(private configService: ConfigService) { }
 
   ngOnInit() {
   }
 
+  showConfig(){
+    this.configService.getConfig()
+      .subscribe(
+        (data: Config) => this.config = { ...data }
+      );
+  }
 }
