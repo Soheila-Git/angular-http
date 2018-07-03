@@ -7,6 +7,7 @@ import { Config, ConfigService } from './config.service';
   styleUrls: ['./config.component.css']
 })
 export class ConfigComponent implements OnInit {
+  headers: string[];
   config: Config;
 
   constructor(private configService: ConfigService) { }
@@ -19,5 +20,19 @@ export class ConfigComponent implements OnInit {
       .subscribe(
         (data: Config) => this.config = { ...data }
       );
+  }
+
+  showConfigResponse() {
+    this.configService.getConfigResponse()
+      // response is of type `HttpResponse<Config>`
+      .subscribe(response => {
+          // display its headers
+          const keys = response.headers.keys();
+          this.headers = keys.map(key =>
+            `${key}: ${response.headers.get(key)}`);
+
+          // access the body directly, which is typed as `Config`.
+          this.config = { ... response.body };
+      });
   }
 }
