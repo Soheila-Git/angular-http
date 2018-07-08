@@ -7,6 +7,7 @@ import { Config, ConfigService } from './config.service';
   styleUrls: ['./config.component.css']
 })
 export class ConfigComponent implements OnInit {
+  error: any;
   headers: string[];
   config: Config;
 
@@ -18,7 +19,8 @@ export class ConfigComponent implements OnInit {
   showConfig(){
     this.configService.getConfig()
       .subscribe(
-        (data: Config) => this.config = { ...data }
+        (data: Config) => this.config = { ...data },  // success path
+        error => this.error = error    // error path
       );
   }
 
