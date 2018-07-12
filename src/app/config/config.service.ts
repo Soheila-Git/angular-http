@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 export interface Config {
   heroesUrl: string;
@@ -16,7 +17,10 @@ export class ConfigService {
   constructor(private http: HttpClient) { }
 
   getConfig() {
-    return this.http.get<Config>(this.configUrl);
+    return this.http.get<Config>(this.configUrl)
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
   getConfigResponse(): Observable<HttpResponse<Config>> {
