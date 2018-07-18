@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, retry } from 'rxjs/operators';
 
 export interface Config {
   heroesUrl: string;
@@ -19,6 +19,7 @@ export class ConfigService {
   getConfig() {
     return this.http.get<Config>(this.configUrl)
       .pipe(
+        retry(3),
         catchError(this.handleError)
       );
   }
